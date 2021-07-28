@@ -1,6 +1,6 @@
 # Install
 
-To run follow the following installtion instructions:
+To run follow the following installation instructions:
 
 * [pydub](https://github.com/jiaaro/pydub#installation)
 
