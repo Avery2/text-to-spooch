@@ -42,9 +42,13 @@ print("loading sounds...")
 for s in sound_files:
     sound = AudioSegment.from_file(s, format="mp3")[:2000]
     sound = trim_silence(sound)
-    letter = s.split("/")[-1].split(".")[0]
+    sound = sound[:1000]
+    letter = s.split("/")[-1].split(".")[0].split("_")[-1]
+    while letter in sounds:
+        letter += "_"
     sounds[letter] = sound
 
+print("playing sounds...")
 for letter, sound in sounds.items():
     print(letter)
     play(sound)
