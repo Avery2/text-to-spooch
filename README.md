@@ -13,3 +13,7 @@ Run `python main.py`
 (bad) recording:
 
 https://user-images.githubusercontent.com/53503018/127413349-782a0d7e-01dd-46bc-87ad-568f487b5038.mov
+
+# Other
+
+Audio from [here](https://www.jollylearning.co.uk/resource-bank/learn-the-letter-sounds/)
