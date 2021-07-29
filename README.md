@@ -10,6 +10,6 @@ To run follow the following installation instructions:
 
 Run `python main.py`
 
-Example:
+(bad) recording:
 
-<img width="518" alt="Screen Shot 2021-07-28 at 7 24 58 PM" src="https://user-images.githubusercontent.com/53503018/127412913-e42e5bc9-768a-487b-bd6d-eb58cce24ea7.png">
+https://user-images.githubusercontent.com/53503018/127413349-782a0d7e-01dd-46bc-87ad-568f487b5038.mov
