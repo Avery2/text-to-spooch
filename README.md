@@ -16,4 +16,6 @@ https://user-images.githubusercontent.com/53503018/127413349-782a0d7e-01dd-46bc-
 
 # Other
 
-Audio from [here](https://www.jollylearning.co.uk/resource-bank/learn-the-letter-sounds/)
+* Audio from [here](https://www.jollylearning.co.uk/resource-bank/learn-the-letter-sounds/)
+* pydub speed change [stackoverflow link](https://stackoverflow.com/questions/51434897/how-to-change-audio-playback-speed-using-pydub)
+* pydub remove silences [stackoverflow link](https://stackoverflow.com/questions/29547218/remove-silence-at-the-beginning-and-at-the-end-of-wave-files-with-pydub)
