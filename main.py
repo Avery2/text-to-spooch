@@ -5,9 +5,20 @@ import os
 import sys
 import getopt
 
-def trim_silence(sound):
-    # from https://stackoverflow.com/questions/29547218/remove-silence-at-the-beginning-and-at-the-end-of-wave-files-with-pydub
-    def detect_leading_silence(sound, silence_threshold=-50.0, chunk_size=10):
+def speed_change(sound, speed=1.0):
+    # FROM https://stackoverflow.com/questions/51434897/how-to-change-audio-playback-speed-using-pydub
+    # Manually override the frame_rate. This tells the computer how many
+    # samples to play per second
+    sound_with_altered_frame_rate = sound._spawn(sound.raw_data, overrides={
+         "frame_rate": int(sound.frame_rate * speed)
+      })
+     # convert the sound with altered frame rate to a standard frame rate
+     # so that regular playback programs will work right. They often only
+     # know how to play audio at standard frame rate (like 44.1k)
+    return sound_with_altered_frame_rate.set_frame_rate(sound.frame_rate)
+
+def detect_leading_silence(sound, silence_threshold=-50.0, chunk_size=2):
+        # from https://stackoverflow.com/questions/29547218/remove-silence-at-the-beginning-and-at-the-end-of-wave-files-with-pydub
         '''
         sound is a pydub.AudioSegment
         silence_threshold in dB
@@ -23,8 +34,11 @@ def trim_silence(sound):
 
         return trim_ms
 
-    start_trim = detect_leading_silence(sound)
-    end_trim = detect_leading_silence(sound.reverse())
+def trim_silence(sound, silence_threshold=-50.0, chunk_size=2):
+    # from https://stackoverflow.com/questions/29547218/remove-silence-at-the-beginning-and-at-the-end-of-wave-files-with-pydub
+
+    start_trim = detect_leading_silence(sound, silence_threshold, chunk_size)
+    end_trim = detect_leading_silence(sound.reverse(), silence_threshold, chunk_size)
 
     duration = len(sound)    
     trimmed_sound = sound[start_trim:duration-end_trim]
@@ -45,6 +59,7 @@ def run():
         sound = AudioSegment.from_file(s, format="mp3")[:2000]
         sound = trim_silence(sound)
         sound = sound[:1000]
+        sound = trim_silence(sound)
         letter = s.split("/")[-1].split(".")[0].split("_")[-1]
         while letter in sounds:
             letter += "_"
@@ -61,12 +76,23 @@ def run():
     return sounds
 
 def wait(sounds):
+    list_sounds = sorted(list(sounds), key=lambda x: len(x), reverse=True)
     while(True):
         print("[IN]: ", end="")
         s = input()
-        # print(f"recived {s}")
         if s in sounds:
             play(sounds[s])
+        else:
+            word = AudioSegment.silent(duration=0)
+            for c in list(s):
+                if c in sounds:
+                    word += trim_silence(sounds[c], silence_threshold=-70)
+                elif c in [' ', ',', ';', '.']:
+                    word += AudioSegment.silent(duration=50)
+            # NORMAL
+            # play(word)
+            # FUN
+            play(speed_change(word, 3))
 
 def main(argv):
     # Command line parsing
